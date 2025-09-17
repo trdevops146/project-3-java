@@ -31,16 +31,31 @@ pipeline {
         stage('Build the docker image'){
             steps{
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                sh '''
-                docker build -t trdevops/java-app:order-service -f ./order-service/Dockerfile ./order-service
-                docker build -t trdevops/java-app:user-service -f ./user-service/Dockerfile ./user-service
+                sh """
+                docker build -t trdevops/java-app:order-service-${BUILD_NUMBER} -f ./order-service/Dockerfile ./order-service
+                docker build -t trdevops/java-app:user-service-${BUILD_NUMBER} -f ./user-service/Dockerfile ./user-service
                 echo "$DOCKER_PASS" | docker login -u $DOCKER_USER --password-stdin
-                docker push trdevops/java-app:order-service
-                docker push trdevops/java-app:user-service
-                '''
+                docker push trdevops/java-app:order-service-${BUILD_NUMBER}
+                docker push trdevops/java-app:user-service-${BUILD_NUMBER}
+                """
             }
             }
 
+        }
+        stage('Clone the github repo which holds the k8 manifests'){
+            steps{
+                sh """
+                git clone "https://github.com/trdevops146/k8-manifest-repo.git"
+                sed -i "s|image: trdevops/java-app:order-service|image: trdevops/java-app:order-service-${BUILD_NUMBER}|g" k8-manifest-repo/order-service.yaml
+                sed -i "s|image: trdevops/java-app:user-service|image: trdevops/java-app:user-service-${BUILD_NUMBER}|g" k8-manifest-repo/user-service.yaml
+                cd k8-manifest-repo
+                git config user.name "Jenkins"
+                git config user.email "jenkins@example.com"
+                git add .
+                git commit -m "Update image to build"
+                git push origin main
+                """
+            }
         }
 
     }
