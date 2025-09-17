@@ -26,6 +26,7 @@ pipeline {
                 -Dsonar.organization=trdevops146 \
                 -Dsonar.host.url=https://sonarcloud.io \
                 -Dsonar.login=86ab33f429a87cf3f426dcc7042d257796016ede
+                cd ..
                 cd order-service/
                 mvn test
                 mvn clean package
