@@ -57,6 +57,7 @@ pipeline {
             steps{
                 sh """
                 git clone "https://github.com/trdevops146/k8-manifest-repo.git"
+                cd k8-manifest-repo/
                 sed -i "s|image: trdevops/java-app:order-service|image: trdevops/java-app:order-service-${BUILD_NUMBER}|g" k8-manifest-repo/order-service.yaml
                 sed -i "s|image: trdevops/java-app:user-service|image: trdevops/java-app:user-service-${BUILD_NUMBER}|g" k8-manifest-repo/user-service.yaml
                 cd k8-manifest-repo
