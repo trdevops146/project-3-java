@@ -18,6 +18,15 @@ pipeline {
         stage('Run the mvn test and the sonarqube code scan'){
             steps{
                 sh '''
+                cd user-service/
+                mvn test
+                mvn clean package
+                mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+                -Dsonar.projectKey=trdevops146_project-3-java \
+                -Dsonar.organization=trdevops146 \
+                -Dsonar.host.url=https://sonarcloud.io \
+                -Dsonar.login=86ab33f429a87cf3f426dcc7042d257796016ede
+                cd order-service/
                 mvn test
                 mvn clean package
                 mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
