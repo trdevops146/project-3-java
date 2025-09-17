@@ -59,8 +59,8 @@ pipeline {
                 rm -rf k8-manifest-repo
                 git clone "https://github.com/trdevops146/k8-manifest-repo.git"
                 cd k8-manifest-repo/
-                sed -i "s|image: trdevops/java-app:order-service|image: trdevops/java-app:order-service-${BUILD_NUMBER}|g" k8-manifest-repo/order-service.yaml
-                sed -i "s|image: trdevops/java-app:user-service|image: trdevops/java-app:user-service-${BUILD_NUMBER}|g" k8-manifest-repo/user-service.yaml
+                sed -i "s|image: trdevops/java-app:order-service|image: trdevops/java-app:order-service-${BUILD_NUMBER}|g" k8-manifest-repo/order-service.yml
+                sed -i "s|image: trdevops/java-app:user-service|image: trdevops/java-app:user-service-${BUILD_NUMBER}|g" k8-manifest-repo/user-service.yml
                 cd k8-manifest-repo
                 git config user.name "Jenkins"
                 git config user.email "jenkins@example.com"
