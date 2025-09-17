@@ -6,5 +6,5 @@ RUN mvn clean package
 ################################
 FROM openjdk:17-jdk-slim
 WORKDIR /app
-COPY --FROM=Builder /app/target/*.jar app-user-service.jar
+COPY --from=Builder /app/target/*.jar app-user-service.jar
 CMD ["java", "-jar", "app-user-service.jar"]

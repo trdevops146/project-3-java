@@ -7,6 +7,6 @@ RUN mvn clean package
 ### Stage 2 ###################
 FROM openjdk:17-jdk-slim
 WORKDIR /app
-COPY --FROM=Builder /app/target/*.jar app.jar
+COPY --from=Builder /app/target/*.jar app.jar
 CMD ["java", "-jar", "app.jar"]
 ################################
