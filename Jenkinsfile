@@ -42,6 +42,7 @@ pipeline {
             steps{
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                 sh """
+                cd /var/lib/jenkins/workspace/java-project-3
                 docker build -t trdevops/java-app:order-service-${BUILD_NUMBER} -f ./order-service/Dockerfile ./order-service
                 docker build -t trdevops/java-app:user-service-${BUILD_NUMBER} -f ./user-service/Dockerfile ./user-service
                 echo "$DOCKER_PASS" | docker login -u $DOCKER_USER --password-stdin
