@@ -56,6 +56,7 @@ pipeline {
         stage('Clone the github repo which holds the k8 manifests'){
             steps{
                 sh """
+                rm -rf k8-manifest-repo
                 git clone "https://github.com/trdevops146/k8-manifest-repo.git"
                 cd k8-manifest-repo/
                 sed -i "s|image: trdevops/java-app:order-service|image: trdevops/java-app:order-service-${BUILD_NUMBER}|g" k8-manifest-repo/order-service.yaml
