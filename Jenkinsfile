@@ -10,7 +10,7 @@ pipeline {
             steps{
                 sh '''
                 sudo apt update
-                sudo apt install maven -y
+                sudo apt install maven -Y
                 mvn --version
                 '''
             }
